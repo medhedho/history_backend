@@ -9,6 +9,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Proxy(lazy=false)
 public class Vote {
     @EmbeddedId

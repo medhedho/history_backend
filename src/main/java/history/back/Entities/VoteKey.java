@@ -7,6 +7,7 @@ import java.util.Objects;
 
 @Embeddable
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class VoteKey implements Serializable {
