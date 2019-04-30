@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/auth/signin").permitAll()
                 .antMatchers(HttpMethod.POST, "/member").permitAll()
-                .antMatchers(HttpMethod.GET, "/poll/{id}","/polls","/choice/{id}","/choices/{id}","/vote/{id}","/votes","/discussion/{id}","/discussions","/contribution/{id}","/contributions/{id}","member","/members").permitAll()
+                .antMatchers(HttpMethod.GET, "/poll/{id}","/polls","/choice/{id}","/choices/{id}","/vote/{id}","/votes","/discussion/{id}","/discussions","/contribution/{id}","/contributions/{id}","/member/{id}","/members").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

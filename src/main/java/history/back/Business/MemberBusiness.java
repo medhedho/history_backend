@@ -19,7 +19,7 @@ public class MemberBusiness {
     PasswordEncoder passwordEncoder;
 
     public Member createMember(String name, String family, String country, String ideology, String quote, String email, String password, List<String> roles){
-        Member m = new Member(name,family,country,ideology,quote,email,password,roles);
+        Member m = new Member(name,family,country,ideology,quote,email,passwordEncoder.encode(password),roles);
         memberRepository.save(m);
         return m;
     }
@@ -41,13 +41,4 @@ public class MemberBusiness {
     public List<Member> getAllMembers(){
         return memberRepository.findAll();
     }
-
-    public Member signUp(){
-        return new Member();
-    }
-
-    public Member signIn(String email, String password){
-        return memberRepository.findByEmailAndPassword(email,password);
-    }
-
 }
