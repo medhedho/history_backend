@@ -1,6 +1,8 @@
 package history.back.Controllers;
 
 
+import history.back.Repositories.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,10 +19,14 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController()
 public class UserinfoController {
 
+    @Autowired
+    MemberRepository memberRepository;
+
     @GetMapping("/me")
     public ResponseEntity currentUser(@AuthenticationPrincipal UserDetails userDetails){
         Map<Object, Object> model = new HashMap<>();
         model.put("username", userDetails.getUsername());
+        model.put("memberid",memberRepository.findByEmail(userDetails.getUsername()).get().getMemberid());
         model.put("roles", userDetails.getAuthorities()
                 .stream()
                 .map(a -> ((GrantedAuthority) a).getAuthority())
