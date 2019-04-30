@@ -1,5 +1,6 @@
 package history.back.Controllers;
 
+import history.back.Entities.Member;
 import history.back.Repositories.MemberRepository;
 import history.back.Security.JWT.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,9 @@ public class AuthController {
             String email = data.getEmail();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, data.getPassword()));
             String token = jwtTokenProvider.createToken(email, this.users.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email " + email + "not found")).getRoles());
-
+            Member m = users.findByEmail(email).get();
             Map<Object, Object> model = new HashMap<>();
+            model.put("memberid", m.getMemberid());
             model.put("username", email);
             model.put("token", token);
             return ok(model);

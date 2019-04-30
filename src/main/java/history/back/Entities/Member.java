@@ -32,6 +32,7 @@ public class Member implements UserDetails {
     private String country;
     private String ideology;
     private String quote;
+    @Column(unique=true)
     private String email;
     private String password;
 

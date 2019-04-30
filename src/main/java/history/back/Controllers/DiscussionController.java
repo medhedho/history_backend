@@ -2,6 +2,7 @@ package history.back.Controllers;
 
 import history.back.Business.DiscussionBusiness;
 import history.back.Entities.Discussion;
+import history.back.Entities.Poll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,4 +40,14 @@ public class DiscussionController {
     public List<Discussion> getAllDiscussions(){
         return discussionBusiness.getAllDiscussions();
     }
+
+    @GetMapping("/discussionreld/{id}")
+    public List<Discussion> getRelatedDiscussions(@PathVariable long id){
+        return discussionBusiness.getRelatedDiscussions(id);
+    }
+    @GetMapping("/discussionrelp/{id}")
+    public List<Poll> getRelatedPolls(@PathVariable long id){
+        return discussionBusiness.getRelatedPolls(id);
+    }
+
 }
