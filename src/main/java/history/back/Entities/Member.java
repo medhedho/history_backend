@@ -1,6 +1,7 @@
 package history.back.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -37,8 +38,7 @@ public class Member implements UserDetails {
     @ElementCollection
     @Builder.Default
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JsonIgnore
-    private List<String> roles = new ArrayList<>();
+    private List<String> roles = new ArrayList();
 
     @OneToMany(mappedBy = "launcher",cascade = CascadeType.REMOVE)
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -60,7 +60,7 @@ public class Member implements UserDetails {
     @JsonIgnore
     List<Vote> votes = new ArrayList();
 
-    public Member(String name, String family, String country, String ideology, String quote, String email, String password) {
+    public Member(String name, String family, String country, String ideology, String quote, String email, String password, List<String> roles) {
         this.name = name;
         this.family = family;
         this.country = country;
@@ -68,9 +68,11 @@ public class Member implements UserDetails {
         this.quote = quote;
         this.email = email;
         this.password = password;
+        this.roles=roles;
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream().map(SimpleGrantedAuthority::new).collect(toList());
     }

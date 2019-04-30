@@ -15,7 +15,7 @@ public class MemberController {
 
     @PostMapping("/member")
     public Member createMember(@RequestBody Member m){
-        return memberBusiness.createMember(m.getName(),m.getFamily(),m.getCountry(),m.getIdeology(),m.getQuote(),m.getEmail(),m.getPassword());
+        return memberBusiness.createMember(m.getName(),m.getFamily(),m.getCountry(),m.getIdeology(),m.getQuote(),m.getEmail(),m.getPassword(),m.getRoles());
     }
 
     @GetMapping("/member/{id}")

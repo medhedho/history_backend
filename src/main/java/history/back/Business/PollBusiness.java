@@ -64,7 +64,7 @@ public class PollBusiness {
         Iterator<Poll> iterator = polls.iterator();
         while (iterator.hasNext()){
             Poll p = iterator.next();
-            if (jaccardIndexBasedSimilarity.calculateSimilarity(thepoll.getLaunching(),p.getLaunching())>=0.1){
+            if (jaccardIndexBasedSimilarity.calculateSimilarity(thepoll.getLaunching(),p.getLaunching())>=0.05){
                 related.add(p);
             }
         }
@@ -78,7 +78,7 @@ public class PollBusiness {
         Iterator<Discussion> iterator = discussions.iterator();
         while (iterator.hasNext()){
             Discussion p = iterator.next();
-            if (jaccardIndexBasedSimilarity.calculateSimilarity(thepoll.getLaunching(),p.getLaunching())>=0.1){
+            if (jaccardIndexBasedSimilarity.calculateSimilarity(thepoll.getLaunching(),p.getLaunching())>=0.05){
                 related.add(p);
             }
         }

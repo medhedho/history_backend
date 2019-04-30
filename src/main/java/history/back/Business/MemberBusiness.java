@@ -3,8 +3,11 @@ package history.back.Business;
 import history.back.Entities.Member;
 import history.back.Repositories.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -12,8 +15,8 @@ public class MemberBusiness {
     @Autowired
     private MemberRepository memberRepository;
 
-    public Member createMember(String name, String family, String country, String ideology, String quote, String email, String password){
-        Member m = new Member(name,family,country,ideology,quote,email,password);
+    public Member createMember(String name, String family, String country, String ideology, String quote, String email, String password, List<String> roles){
+        Member m = new Member(name,family,country,ideology,quote,email,password,roles);
         memberRepository.save(m);
         return m;
     }
