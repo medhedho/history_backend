@@ -18,6 +18,11 @@ public class ChoiceController {
         return choiceBusiness.createChoice(c.getText(),memberid,pollid);
     }
 
+    @GetMapping("/choicevotes/{id}")
+    public int getVotesNumber(@PathVariable long id){
+        return choiceBusiness.getVotesNumber(id);
+    }
+
     @GetMapping(value = "/choice/{id}")
     public Choice getChoice(@PathVariable("id") long id){
         return choiceBusiness.getChoice(id);
