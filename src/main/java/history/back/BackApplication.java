@@ -4,15 +4,26 @@ import history.back.Business.DiscussionBusiness;
 import history.back.Business.Keywords.JaccardIndexBasedSimilarity;
 import history.back.Business.MemberBusiness;
 import history.back.Entities.Discussion;
+import history.back.Entities.Member;
 import history.back.Entities.Poll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 public class BackApplication {
@@ -26,11 +37,11 @@ public class BackApplication {
 
     public static void main(String[] args) { SpringApplication.run(BackApplication.class, args); }
 
-    @Bean
+    /*@Bean
     public CommandLineRunner demo() {
         try {
             return (args) -> {
-                System.out.println(memberBusiness.signIn("icloud","icloud").getName());
+                //System.out.println(memberBusiness.signIn("icloud","icloud").getName());
                 Discussion discussion = discussionBusiness.getDiscussion(23L);
                 List<Discussion> reld = discussionBusiness.getRelatedDiscussions(23L);
                 Iterator<Discussion> it = reld.iterator();
@@ -49,13 +60,33 @@ public class BackApplication {
                 }
                 System.out.println(jaccardIndexBasedSimilarity.calculateSimilarity("Does Crimea really belong to Russia?","Was the Bolshevik revolution a conspiracy against Christianity in Russia?"));
                 System.out.println(jaccardIndexBasedSimilarity.calculateSimilarity("Does Crimea really belong to Russia?","Which country should Kashmir belong to?"));
-                System.out.println(jaccardIndexBasedSimilarity.calculateSimilarity("Does Crimea really belong to Russia?","Which country would be best suited to the Crimean Tatars?"));
-
+                System.out.println(jaccardIndexBasedSimilarity.calculateSimilarity("Does Crimea really belong to Russia?","Which country would be best suited to the Tatars of Crimea?"));
+                System.out.println(jaccardIndexBasedSimilarity.calculateSimilarity("Does Crimea really belong to Russia?","Was the Bolshevik revolution a conspiracy against Christianity in Russia?"));
             };
         }
         catch (Exception ex){}
-
         return null;
+    }*/
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
 }
+
+@Configuration
+@EnableJpaAuditing
+class DataJpaConfig {
+
+    @Bean
+    public AuditorAware<Member> auditor() {
+        return () -> Optional.ofNullable(SecurityContextHolder.getContext())
+                .map(SecurityContext::getAuthentication)
+                .filter(Authentication::isAuthenticated)
+                .map(Authentication::getPrincipal)
+                .map(Member.class::cast);
+    }
+}
+
+

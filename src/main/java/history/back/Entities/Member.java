@@ -5,16 +5,24 @@ import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.Proxy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.*;
 
+import static java.util.stream.Collectors.toList;
+
 @Entity
 @Getter
 @Setter
+@Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Proxy(lazy=false)
-public class Member {
+public class Member implements UserDetails {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long memberid;
@@ -25,6 +33,12 @@ public class Member {
     private String quote;
     private String email;
     private String password;
+
+    @ElementCollection
+    @Builder.Default
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
+    private List<String> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "launcher",cascade = CascadeType.REMOVE)
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -54,5 +68,40 @@ public class Member {
         this.quote = quote;
         this.email = email;
         this.password = password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream().map(SimpleGrantedAuthority::new).collect(toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

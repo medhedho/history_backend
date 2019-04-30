@@ -38,9 +38,9 @@ public class MemberController {
         return memberBusiness.getAllMembers();
     }
 
-    @GetMapping("/signin/{email}/{password}")
+    /*@GetMapping("/signin/{email}/{password}")
     public Member signIn(@PathVariable String email, @PathVariable String password){
         return memberBusiness.signIn(email,password);
-    }
+    }*/
 
 }
