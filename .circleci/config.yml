@@ -6,11 +6,20 @@ jobs:
       - image: circleci/mysql:5.7.25
         environment:
           MYSQL_ROOT_PASSWORD: rootpw
-          MYSQL_DATABASE: test_db
+          MYSQL_DATABASE: history
           MYSQL_USER: user
           MYSQL_PASSWORD: passw0rd
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-
+      - run: mvn dependency:go-offline
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
       - run:
             # Our primary container isn't MYSQL so run a sleep command until it's ready.
             name: Waiting for MySQL to be ready
@@ -26,6 +35,7 @@ jobs:
             name: Install MySQL CLI; Import dummy data; run an example query
             command: |
               sudo apt-get update && sudo apt-get install mysql-client
-              mysql -h 127.0.0.1 -u user -ppassw0rd test_db < sql-data/dummy.sql
-              mysql -h 127.0.0.1 -u user -ppassw0rd --execute="SELECT * FROM test_db.Persons"
+            # mysql -h 127.0.0.1 -u user -ppassw0rd test_db < sql-data/dummy.sql
+            # mysql -h 127.0.0.1 -u user -ppassw0rd --execute="SELECT * FROM test_db.Persons"
+              mysql -h 127.0.0.1 -u user -ppassw0rd --execute="SELECT * FROM history.member"
       - run: mvn integration-test
