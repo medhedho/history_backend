@@ -6,10 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -24,8 +26,15 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        Optional<Member> user = this.users.findByEmail("user");
+        Optional<Member> admin = this.users.findByEmail("admin");
+        if (user.isPresent())
+            this.users.delete(user.get());
+        if (admin.isPresent())
+            this.users.delete(admin.get());
+
         this.users.save(Member.builder()
-                .email("member")
+                .email("user")
                 .password(this.passwordEncoder.encode("password"))
                 .roles(Arrays.asList( "ROLE_USER"))
                 .build()
