@@ -25,7 +25,7 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         this.users.save(Member.builder()
-                .email("user")
+                .email("member")
                 .password(this.passwordEncoder.encode("password"))
                 .roles(Arrays.asList( "ROLE_USER"))
                 .build()
