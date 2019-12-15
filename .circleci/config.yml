@@ -7,8 +7,8 @@ jobs:
         environment:
           MYSQL_ROOT_PASSWORD: rootpw
           MYSQL_DATABASE: history
-          MYSQL_USER: user
-          MYSQL_PASSWORD: passw0rd
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root
     steps:
       - checkout
       - restore_cache:
@@ -36,5 +36,5 @@ jobs:
             name: Install MySQL CLI; Import dummy data; run an example query
             command: |
               sudo apt-get update && sudo apt-get install mysql-client
-              mysql -h 127.0.0.1 -u user -ppassw0rd --execute="SELECT * FROM history.member"
+              mysql -h 127.0.0.1 -u root -proot --execute="SELECT * FROM history.member"
       - run: mvn integration-test
