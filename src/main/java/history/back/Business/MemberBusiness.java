@@ -30,6 +30,7 @@ public class MemberBusiness {
     }
 
     public Member getMemberByEmail(String email) {
+        //return new Member();
         return memberRepository.findByEmail(email);
     }
 
