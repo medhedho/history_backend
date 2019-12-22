@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -39,8 +40,8 @@ public class AuthController {
         try {
             String email = data.getEmail();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, data.getPassword()));
-            String token = jwtTokenProvider.createToken(email, this.users.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email " + email + "not found")).getRoles());
-            Member m = users.findByEmail(email).get();
+            String token = jwtTokenProvider.createToken(email, java.util.Optional.of(this.users.findByEmail(email)).orElseThrow(() -> new UsernameNotFoundException("Email " + email + "not found")).getRoles());
+            Member m = users.findByEmail(email);
             Map<Object, Object> model = new HashMap<>();
             model.put("memberid", m.getMemberid());
             model.put("username", email);

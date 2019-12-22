@@ -26,7 +26,7 @@ public class UserinfoController {
     public ResponseEntity currentUser(@AuthenticationPrincipal UserDetails userDetails){
         Map<Object, Object> model = new HashMap<>();
         model.put("username", userDetails.getUsername());
-        model.put("memberid",memberRepository.findByEmail(userDetails.getUsername()).get().getMemberid());
+        model.put("memberid",memberRepository.findByEmail(userDetails.getUsername()).getMemberid());
         model.put("roles", userDetails.getAuthorities()
                 .stream()
                 .map(a -> ((GrantedAuthority) a).getAuthority())

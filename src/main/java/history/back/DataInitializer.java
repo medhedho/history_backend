@@ -26,12 +26,12 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Optional<Member> user = this.users.findByEmail("user");
-        Optional<Member> admin = this.users.findByEmail("admin");
-        if (user.isPresent())
-            this.users.delete(user.get());
-        if (admin.isPresent())
-            this.users.delete(admin.get());
+        Member user = this.users.findByEmail("user");
+        Member admin = this.users.findByEmail("admin");
+        if (user != null)
+            this.users.delete(user);
+        if (admin != null)
+            this.users.delete(admin);
 
         this.users.save(Member.builder()
                 .email("user")

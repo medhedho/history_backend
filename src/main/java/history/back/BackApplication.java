@@ -32,13 +32,6 @@ import java.util.Optional;
 @SpringBootApplication
 public class BackApplication {
 
-    @Autowired
-    private MemberBusiness memberBusiness;
-    @Autowired
-    private DiscussionBusiness discussionBusiness;
-    @Autowired
-    JaccardIndexBasedSimilarity jaccardIndexBasedSimilarity;
-
     public static void main(String[] args) { final ApplicationContext ctx = SpringApplication.run(BackApplication.class, args); }
 
     /*@Bean

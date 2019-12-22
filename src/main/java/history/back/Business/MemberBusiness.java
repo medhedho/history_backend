@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MemberBusiness {
@@ -26,6 +27,10 @@ public class MemberBusiness {
 
     public Member getMember(Long id){
         return memberRepository.getOne(id);
+    }
+
+    public Member getMemberByEmail(String email) {
+        return memberRepository.findByEmail(email);
     }
 
     public Member updateMember(Member m,String name,String family,String country,String ideology,String quote,String email,String password){
