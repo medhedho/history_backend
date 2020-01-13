@@ -46,4 +46,14 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].name").value(alex.getName()));
     }
+
+    @Test
+    public void getMember() throws Exception {
+        Member alex = new Member("alex","alex","alex","alex","alex","alex","alex", Arrays.asList("ROLE_USER"));
+        given(service.getMember((long) 0)).willReturn(alex);
+        mvc.perform(get("/member/0")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(alex.getName()));
+    }
 }
