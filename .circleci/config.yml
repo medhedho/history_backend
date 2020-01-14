@@ -1,7 +1,6 @@
 version: 2
 jobs:
   build:
-    working_directory: /history
     docker:
       - image: circleci/openjdk:8-jdk
       - image: circleci/mysql:5.7.25
