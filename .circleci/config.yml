@@ -1,6 +1,7 @@
 version: 2
 jobs:
   build:
+    working_directory: /history
     docker:
       - image: circleci/openjdk:8-jdk
       - image: circleci/mysql:5.7.25
@@ -32,3 +33,9 @@ jobs:
               done
               echo Failed waiting for MySQL && exit 1
       - run: mvn clean package
+      - deploy:
+          name: Publish application to docker hub
+          command: |
+            docker login -e medhedho@icloud.com -u medhedho -p iammedhedho96
+            docker tag history_history medhedho/history:latest
+            docker push medhedho/history:latest
