@@ -35,6 +35,6 @@ jobs:
       - deploy:
           name: Publish application to docker hub
           command: |
-            docker login -e medhedho@icloud.com -u medhedho -p iammedhedho96
+            docker login -u medhedho -p iammedhedho96
             docker tag history_history medhedho/history:latest
             docker push medhedho/history:latest
