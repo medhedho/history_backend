@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //@formatter:off
-        http
+        /*http
                 .httpBasic().disable()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -42,7 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/poll/{id}","/polls","/choice/{id}","/choices/{id}","/vote/{id}","/votes","/discussion/{id}","/discussions","/contribution/{id}","/contributions/{id}","/member/{id}","/members","/discussionreld/{id}","/discussionrelp/{id}","/pollreld/{id}","/pollrelp/{id}").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .apply(new JwtConfigurer(jwtTokenProvider));
+                .apply(new JwtConfigurer(jwtTokenProvider));*/
+        http.authorizeRequests().antMatchers("/").permitAll();
         //@formatter:on
         //        http.csrf().disable();
         http.cors();
