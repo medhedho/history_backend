@@ -32,4 +32,4 @@ jobs:
               echo Failed waiting for MySQL && exit 1
       - run: mvn clean package
       - store_test_results:
-          path: reports/junit/test-results.xml
+          path: test-results
